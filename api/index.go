@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"clinicadmin-ai/internal/app"
+	"clinicadmin-ai/app"
 )
 
 var server = app.NewServer()

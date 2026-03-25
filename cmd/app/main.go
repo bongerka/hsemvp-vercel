@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"clinicadmin-ai/internal/app"
+	"clinicadmin-ai/app"
 )
 
 func main() {
