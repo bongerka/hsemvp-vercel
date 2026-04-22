@@ -10,16 +10,19 @@ const features = [
     title: "Telegram-бот для пациентов",
     description:
       "Ассистент отвечает на административные вопросы, принимает текст и голос, собирает заявку на запись.",
+    icon: MessagesSquare,
   },
   {
     title: "RAG по документам клиники",
     description:
       "FAQ, прайс, подготовка к визиту и правила записи хранятся в базе знаний и подмешиваются в ответ модели.",
+    icon: Bot,
   },
   {
     title: "Кабинет администратора",
     description:
-      "Все заявки, последние обращения и базовая воронка доступны в одном интерфейсе без отдельного бэкенд-монолита.",
+      "Все заявки, последние обращения и базовая воронка доступны в одном интерфейсе без отдельного backend-монолита.",
+    icon: ChartNoAxesCombined,
   },
 ];
 
@@ -33,140 +36,109 @@ export default function Home() {
   return (
     <main className="relative flex-1 overflow-hidden">
       <LandingEventTracker />
-      <section className="grid-pattern px-4 pb-10 pt-6 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl space-y-10">
-          <div className="flex flex-col gap-4 rounded-[32px] border border-white/60 bg-white/70 p-5 backdrop-blur md:flex-row md:items-center md:justify-between md:p-6">
-            <div>
-              <p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
-                Clinic Admin Assistant
-              </p>
-              <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground md:text-4xl">
+
+      <section className="grid-pattern px-4 pb-12 pt-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl space-y-10">
+          <nav className="flex flex-col gap-4 rounded-[32px] border border-white/60 bg-white/75 px-5 py-4 backdrop-blur md:flex-row md:items-center md:justify-between md:px-6">
+            <div className="flex items-center gap-3">
+              <div className="rounded-2xl bg-primary/10 p-2 text-primary">
+                <Bot className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
+                  Clinic Admin Assistant
+                </p>
+                <p className="text-sm font-semibold text-foreground">
+                  MVP для административной рутины клиники
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/chat" className={buttonVariants({ variant: "ghost", size: "sm" })}>
+                Веб-чат
+              </Link>
+              <Link href="/login" className={buttonVariants({ variant: "secondary", size: "sm" })}>
+                Войти
+              </Link>
+            </div>
+          </nav>
+
+          <div className="grid gap-8 lg:grid-cols-[1.25fr_0.85fr] lg:items-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground">
+                <Bot className="h-4 w-4" />
+                Без тяжелого custom backend
+              </div>
+              <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl">
                 AI-помощник администратора клиники для быстрых ответов и сбора заявок
               </h1>
+              <p className="max-w-xl text-base leading-7 text-muted-foreground md:text-lg">
+                Продукт решает административные задачи: FAQ, маршрутизация вопросов, цены, подготовка к визиту и сбор контактов. Вся оркестрация живет в n8n, а данные — в Supabase.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/chat" className={buttonVariants({ variant: "default", size: "lg" })}>
+                  Попробовать веб-чат
+                </Link>
+                <TrackedExternalLink
+                  href={publicEnv.telegramBotUrl}
+                  eventName="telegram_open_click"
+                  className={buttonVariants({ variant: "secondary", size: "lg" })}
+                >
+                  Telegram-бот
+                </TrackedExternalLink>
+                <Link href="/admin" className={buttonVariants({ variant: "ghost", size: "lg" })}>
+                  Кабинет
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/login" className={buttonVariants({ variant: "default", size: "lg" })}>
-                Войти как администратор
-              </Link>
-              <TrackedExternalLink
-                href={publicEnv.telegramBotUrl}
-                eventName="telegram_open_click"
-                className={buttonVariants({ variant: "secondary", size: "lg" })}
-              >
-                Открыть Telegram-бота
-              </TrackedExternalLink>
-            </div>
-          </div>
 
-          <div className="grid gap-6 lg:grid-cols-[1.4fr_0.9fr]">
-            <Card className="overflow-hidden">
-              <CardContent className="grid gap-8 px-6 py-8 md:grid-cols-[1.2fr_0.8fr] md:px-8">
-                <div className="space-y-6">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground">
-                    <Bot className="h-4 w-4" />
-                    Быстрый MVP без тяжелого custom backend
-                  </div>
-                  <div className="space-y-4">
-                    <h2 className="max-w-2xl text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
-                      Администратор видит заявки, бот отвечает по базе знаний, а сложная логика живет в n8n
-                    </h2>
-                    <p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
-                      Продукт решает административные задачи клиники: FAQ, маршрутизация вопросов, цены, подготовка к визиту и сбор контактов. Без медицинских диагнозов и без переусложнения архитектуры.
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    <Link href="/chat" className={buttonVariants({ variant: "secondary", size: "lg" })}>
-                      Попробовать веб-чат
-                    </Link>
-                    <Link href="/admin" className={buttonVariants({ variant: "ghost", size: "lg" })}>
-                      Открыть кабинет
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="space-y-4 rounded-[28px] bg-[#16381f] p-6 text-white">
-                  <div className="space-y-2">
-                    <p className="text-sm uppercase tracking-[0.24em] text-white/65">
-                      Что делает продукт
-                    </p>
-                    <p className="text-2xl font-semibold leading-tight">
-                      Оцифровывает рутину администратора без обещаний enterprise CRM.
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="rounded-3xl bg-white/10 p-4">
-                      <p className="text-sm text-white/70">Вопрос пациента</p>
-                      <p className="mt-2 font-medium">
-                        “Сколько стоит первичный прием и как подготовиться?”
-                      </p>
-                    </div>
-                    <div className="rounded-3xl bg-white/95 p-4 text-[#16381f]">
-                      <p className="text-sm text-[#45614c]">Ответ ассистента</p>
-                      <p className="mt-2 font-medium">
-                        “Первичный прием стоит 3 500 ₽. За 8 часов до анализа не ешьте, а для записи я могу оставить заявку администратору.”
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="grid gap-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Для демонстрации</CardTitle>
-                  <CardDescription>
-                    Нужен быстрый результат, который можно собрать за 1–2 вечера.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-3 rounded-2xl bg-muted/70 p-4">
-                    <MessagesSquare className="h-5 w-5 text-primary" />
-                    Telegram и веб-чат как входящие каналы
-                  </div>
-                  <div className="flex items-center gap-3 rounded-2xl bg-muted/70 p-4">
-                    <ChartNoAxesCombined className="h-5 w-5 text-primary" />
-                    Базовая статистика и простая воронка на Supabase
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Ограничения MVP</CardTitle>
-                  <CardDescription>Сознательно не делаем лишнее.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm text-muted-foreground">
-                  <p>Никаких диагнозов и медицинских рекомендаций как врач.</p>
-                  <p>Нет real-time booking engine и сложной CRM.</p>
-                  <p>Одна роль администратора и минимальный набор страниц.</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-3">
-          {features.map((feature) => (
-            <Card key={feature.title}>
-              <CardHeader>
-                <CardTitle>{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-6 text-muted-foreground">
-                  {feature.description}
+            <div className="space-y-4 rounded-[28px] bg-[#16381f] p-6 text-white panel-shadow">
+              <p className="text-xs uppercase tracking-[0.24em] text-white/60">
+                Как выглядит ответ ассистента
+              </p>
+              <div className="rounded-3xl bg-white/10 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/60">Пациент</p>
+                <p className="mt-2 font-medium leading-6">
+                  Сколько стоит первичный прием и как подготовиться?
                 </p>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+              <div className="rounded-3xl bg-white p-4 text-[#16381f]">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#45614c]">Ассистент</p>
+                <p className="mt-2 font-medium leading-6">
+                  Первичный прием стоит 3 500 ₽. За 8 часов до анализа не ешьте — если хотите, я оставлю заявку администратору.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[32px] border border-white/70 bg-white/80 p-6 md:p-8">
+        <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-3">
+          {features.map((feature) => {
+            const Icon = feature.icon;
+            return (
+              <Card key={feature.title}>
+                <CardHeader>
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <CardTitle>{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm leading-6 text-muted-foreground">
+                    {feature.description}
+                  </p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl rounded-[32px] border border-white/70 bg-white/80 p-6 panel-shadow md:p-8">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-3">
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
@@ -179,9 +151,9 @@ export default function Home() {
                 Supabase хранит пользователей, обращения, сообщения, лиды, базу знаний и event-логи. Frontend читает данные через RLS после входа администратора.
               </p>
             </div>
-            <div className="space-y-3">
+            <ol className="space-y-3">
               {steps.map((step, index) => (
-                <div
+                <li
                   key={step}
                   className="flex gap-4 rounded-[24px] border border-border bg-secondary p-4"
                 >
@@ -189,10 +161,22 @@ export default function Home() {
                     {index + 1}
                   </div>
                   <p className="text-sm leading-6 text-foreground">{step}</p>
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
+
+          <Card className="mt-8 bg-muted/60">
+            <CardHeader>
+              <CardTitle>Ограничения MVP</CardTitle>
+              <CardDescription>Сознательно не делаем лишнее.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-2 text-sm leading-6 text-muted-foreground md:grid-cols-3">
+              <p>Никаких диагнозов и медицинских рекомендаций как врач.</p>
+              <p>Нет real-time booking engine и сложной CRM.</p>
+              <p>Одна роль администратора и минимальный набор страниц.</p>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </main>
