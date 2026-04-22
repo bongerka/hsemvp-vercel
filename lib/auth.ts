@@ -36,8 +36,20 @@ export async function requireAdmin() {
     redirect("/login");
   }
 
-  if (!session.profile || session.profile.role !== "admin") {
-    redirect("/login?error=Нет доступа к панели администратора");
+  if (!session.profile) {
+    redirect(
+      "/login?error=" +
+        encodeURIComponent(
+          "Для этого пользователя нет строки в public.profiles. Выполните миграцию supabase/migrations/0002_backfill_profiles.sql.",
+        ),
+    );
+  }
+
+  if (session.profile.role !== "admin") {
+    redirect(
+      "/login?error=" +
+        encodeURIComponent("У пользователя нет роли admin в public.profiles."),
+    );
   }
 
   return session;
