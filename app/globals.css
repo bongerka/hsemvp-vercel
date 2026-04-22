@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f3f6ef;
+  --foreground: #122118;
+  --card: #ffffff;
+  --card-foreground: #122118;
+  --muted: #e8eee2;
+  --muted-foreground: #5d6b60;
+  --accent: #dcebd9;
+  --accent-foreground: #16381f;
+  --primary: #215732;
+  --primary-foreground: #f7fbf6;
+  --secondary: #ffffff;
+  --secondary-foreground: #16381f;
+  --border: #d6dfd0;
+  --ring: #5c8a68;
+  --destructive: #a63c3c;
+  --destructive-foreground: #fff8f8;
+  --chart-1: #2f6c44;
+  --chart-2: #4f8a65;
+  --chart-3: #8cb39a;
+  --shadow: 0 20px 60px rgba(33, 87, 50, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --font-sans: var(--font-manrope);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-manrope), sans-serif;
+  background-image:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 28%),
+    linear-gradient(180deg, #f8fbf5 0%, #f3f6ef 38%, #eef3ea 100%);
+}
+
+a,
+button {
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+::selection {
+  background: rgba(33, 87, 50, 0.18);
+}
+
+.panel-shadow {
+  box-shadow: var(--shadow);
+}
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(33, 87, 50, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 87, 50, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
