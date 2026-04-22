@@ -1,35 +1,35 @@
 import Link from "next/link";
-import { ArrowRight, Bot, ChartNoAxesCombined, MessagesSquare } from "lucide-react";
+import { ArrowRight, Bot, CalendarClock, ChartNoAxesCombined, MessagesSquare } from "lucide-react";
 import { LandingEventTracker, TrackedExternalLink } from "@/components/app/public-event";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { publicEnv } from "@/lib/env";
 
 const features = [
   {
-    title: "Telegram-бот для пациентов",
+    title: "Круглосуточный Telegram-бот",
     description:
-      "Ассистент отвечает на административные вопросы, принимает текст и голос, собирает заявку на запись.",
+      "Пациенты спрашивают про цены, режим работы и правила записи в любое время. Бот отвечает сразу, голосом или текстом.",
     icon: MessagesSquare,
   },
   {
-    title: "RAG по документам клиники",
+    title: "Ответы по вашей базе знаний",
     description:
-      "FAQ, прайс, подготовка к визиту и правила записи хранятся в базе знаний и подмешиваются в ответ модели.",
+      "Загружаете прайс, FAQ и памятки — бот отвечает строго по этим документам и не выдумывает.",
     icon: Bot,
   },
   {
-    title: "Кабинет администратора",
+    title: "Единый кабинет с заявками",
     description:
-      "Все заявки, последние обращения и базовая воронка доступны в одном интерфейсе без отдельного backend-монолита.",
+      "Заявки, диалоги и воронка в одном окне. Администратор видит только то, что важно в работе.",
     icon: ChartNoAxesCombined,
   },
 ];
 
 const steps = [
-  "Пациент пишет в Telegram или веб-чат, а n8n принимает входящее сообщение.",
-  "n8n вызывает OpenAI для speech-to-text и ответа с учетом базы знаний в Supabase.",
-  "Lead, сообщения и события сохраняются в Supabase и сразу доступны администратору в веб-кабинете.",
+  "Пациент пишет в Telegram или открывает чат на сайте клиники.",
+  "Ассистент сам отвечает на частые вопросы, собирает имя и телефон.",
+  "Готовые заявки появляются в кабинете администратора клиники.",
 ];
 
 export default function Home() {
@@ -46,16 +46,16 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
-                  Clinic Admin Assistant
+                  Clinic Assistant
                 </p>
                 <p className="text-sm font-semibold text-foreground">
-                  MVP для административной рутины клиники
+                  AI-помощник администратора клиники
                 </p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/chat" className={buttonVariants({ variant: "ghost", size: "sm" })}>
-                Веб-чат
+                Демо-чат
               </Link>
               <Link href="/login" className={buttonVariants({ variant: "secondary", size: "sm" })}>
                 Войти
@@ -66,25 +66,25 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-[1.25fr_0.85fr] lg:items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground">
-                <Bot className="h-4 w-4" />
-                Без тяжелого custom backend
+                <CalendarClock className="h-4 w-4" />
+                Отвечает 24/7, собирает заявки автоматически
               </div>
               <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl">
-                AI-помощник администратора клиники для быстрых ответов и сбора заявок
+                AI-помощник администратора клиники — отвечает на вопросы и собирает заявки
               </h1>
               <p className="max-w-xl text-base leading-7 text-muted-foreground md:text-lg">
-                Продукт решает административные задачи: FAQ, маршрутизация вопросов, цены, подготовка к визиту и сбор контактов. Вся оркестрация живет в n8n, а данные — в Supabase.
+                Пациенты получают мгновенные ответы про цены, подготовку к визиту и расписание. Администратор видит готовые заявки и историю обращений в удобном кабинете.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link href="/chat" className={buttonVariants({ variant: "default", size: "lg" })}>
-                  Попробовать веб-чат
+                  Попробовать чат
                 </Link>
                 <TrackedExternalLink
                   href={publicEnv.telegramBotUrl}
                   eventName="telegram_open_click"
                   className={buttonVariants({ variant: "secondary", size: "lg" })}
                 >
-                  Telegram-бот
+                  Открыть в Telegram
                 </TrackedExternalLink>
                 <Link href="/admin" className={buttonVariants({ variant: "ghost", size: "lg" })}>
                   Кабинет
@@ -145,10 +145,10 @@ export default function Home() {
                 Как это работает
               </p>
               <h2 className="text-3xl font-semibold tracking-tight">
-                Вся тяжелая логика в n8n, а web только показывает результат и управляет входом
+                Пациент задаёт вопрос — администратор получает готовую заявку
               </h2>
               <p className="text-sm leading-6 text-muted-foreground">
-                Supabase хранит пользователей, обращения, сообщения, лиды, базу знаний и event-логи. Frontend читает данные через RLS после входа администратора.
+                Ассистент подключается к Telegram-боту клиники и к чату на сайте. Каждое обращение сохраняется в кабинете администратора, а заявки попадают туда сразу с именем и телефоном.
               </p>
             </div>
             <ol className="space-y-3">
@@ -165,18 +165,6 @@ export default function Home() {
               ))}
             </ol>
           </div>
-
-          <Card className="mt-8 bg-muted/60">
-            <CardHeader>
-              <CardTitle>Ограничения MVP</CardTitle>
-              <CardDescription>Сознательно не делаем лишнее.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-2 text-sm leading-6 text-muted-foreground md:grid-cols-3">
-              <p>Никаких диагнозов и медицинских рекомендаций как врач.</p>
-              <p>Нет real-time booking engine и сложной CRM.</p>
-              <p>Одна роль администратора и минимальный набор страниц.</p>
-            </CardContent>
-          </Card>
         </div>
       </section>
     </main>

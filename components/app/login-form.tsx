@@ -23,7 +23,7 @@ export function LoginForm({
     event.preventDefault();
 
     if (!hasSupabaseEnv) {
-      setError("Supabase переменные не настроены.");
+      setError("Вход временно недоступен. Обратитесь к администратору сайта.");
       return;
     }
 
