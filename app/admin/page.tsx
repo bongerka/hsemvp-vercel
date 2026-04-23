@@ -5,7 +5,7 @@ import { StatCard } from "@/components/app/stat-card";
 import { StatusBadge } from "@/components/app/status-badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getDashboardData } from "@/lib/dashboard";
-import { formatDateTime, formatEventName, formatSource, truncate } from "@/lib/format";
+import { formatDateTime, formatSource, truncate } from "@/lib/format";
 
 export default async function AdminDashboardPage() {
   const data = await getDashboardData();
@@ -44,90 +44,54 @@ export default async function AdminDashboardPage() {
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Последние заявки</CardTitle>
-            <CardDescription>Свежие лиды, которые уже попали в систему.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {data.recentLeads.length === 0 ? (
-              <EmptyState
-                title="Заявок пока нет"
-                description="После первого лида из Telegram или веб-чата записи появятся здесь."
-              />
-            ) : (
-              <div className="overflow-hidden rounded-[24px] border border-border">
-                <table className="min-w-full text-sm">
-                  <thead className="bg-muted/70 text-left text-muted-foreground">
-                    <tr>
-                      <th className="px-4 py-3 font-medium">Пациент</th>
-                      <th className="px-4 py-3 font-medium">Услуга</th>
-                      <th className="px-4 py-3 font-medium">Статус</th>
-                      <th className="px-4 py-3 font-medium">Создана</th>
+      <Card>
+        <CardHeader>
+          <CardTitle>Последние заявки</CardTitle>
+          <CardDescription>Свежие лиды, которые уже попали в систему.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {data.recentLeads.length === 0 ? (
+            <EmptyState
+              title="Заявок пока нет"
+              description="После первого лида из Telegram или веб-чата записи появятся здесь."
+            />
+          ) : (
+            <div className="overflow-hidden rounded-[24px] border border-border">
+              <table className="min-w-full text-sm">
+                <thead className="bg-muted/70 text-left text-muted-foreground">
+                  <tr>
+                    <th className="px-4 py-3 font-medium">Пациент</th>
+                    <th className="px-4 py-3 font-medium">Услуга</th>
+                    <th className="px-4 py-3 font-medium">Статус</th>
+                    <th className="px-4 py-3 font-medium">Создана</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border bg-white">
+                  {data.recentLeads.map((lead) => (
+                    <tr key={lead.id}>
+                      <td className="px-4 py-3">
+                        <div className="font-medium">{lead.patient_name || "Без имени"}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {lead.phone || lead.telegram_username || "Контакт не указан"}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">
+                        {lead.service_interest || "Не уточнено"}
+                      </td>
+                      <td className="px-4 py-3">
+                        <StatusBadge status={lead.status} />
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground">
+                        {formatDateTime(lead.created_at)}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border bg-white">
-                    {data.recentLeads.map((lead) => (
-                      <tr key={lead.id}>
-                        <td className="px-4 py-3">
-                          <div className="font-medium">{lead.patient_name || "Без имени"}</div>
-                          <div className="text-xs text-muted-foreground">
-                            {lead.phone || lead.telegram_username || "Контакт не указан"}
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-muted-foreground">
-                          {lead.service_interest || "Не уточнено"}
-                        </td>
-                        <td className="px-4 py-3">
-                          <StatusBadge status={lead.status} />
-                        </td>
-                        <td className="px-4 py-3 text-muted-foreground">
-                          {formatDateTime(lead.created_at)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Последние события</CardTitle>
-            <CardDescription>
-              Базовая воронка и технические действия, которые пишет n8n.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {data.recentEvents.length === 0 ? (
-              <EmptyState
-                title="Пока пусто"
-                description="Когда в систему начнут приходить события, они отобразятся здесь."
-              />
-            ) : (
-              data.recentEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className="flex items-start justify-between gap-4 rounded-[22px] border border-border bg-white px-4 py-3"
-                >
-                  <div className="space-y-1">
-                    <p className="font-medium">{formatEventName(event.event_name)}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {truncate(JSON.stringify(event.properties ?? {}), 80)}
-                    </p>
-                  </div>
-                  <p className="shrink-0 text-xs text-muted-foreground">
-                    {formatDateTime(event.created_at)}
-                  </p>
-                </div>
-              ))
-            )}
-          </CardContent>
-        </Card>
-      </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
